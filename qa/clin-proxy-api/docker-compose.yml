@@ -1,0 +1,195 @@
+version: '3.3'
+
+services:
+  memcached:
+    image: "memcached"
+    ports:
+      - "11211:11211"
+    networks:
+      - clinnet
+    deploy:
+      mode: replicated
+      #Given that memcached is a stateful application and this is not a cluster, keep this value at 1
+      replicas: 1
+      placement:
+        constraints: [node.labels.app_role == generic]
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 256M
+        reservations:
+          cpus: '1.00'
+          memory: 128M
+    #https://docs.oracle.com/cd/E17952_01/mysql-5.1-en/ha-memcached-cmdline-options.html
+    command: "memcached -m 128 -t 4"
+  auth:
+    image: chusj/clin-proxy-api-auth-service:$DEFAULT_PROD_VERSION
+    depends_on:
+      - memcached
+    ports:
+      - "3000:3000"
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+        - node.labels.app_role == generic
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    networks:
+      - clinnet
+      - proxy
+    env_file:
+      - auth.env
+    secrets:
+      - certificate_certificate
+      - certificate_key
+      - keycloak_clin_client_secret
+      - aidbox_root_user
+      - aidbox_root_password
+      - clin_proxy_api_jwt_secret
+  patient:
+    image: chusj/clin-proxy-api-patient-service:$DEFAULT_PROD_VERSION
+    depends_on:
+      - memcached
+    ports:
+      - "4000:4000"
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+        - node.labels.app_role == generic
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    networks:
+      - aidbox
+      - clinnet
+      - proxy
+    env_file:
+      - patient.env
+    secrets:
+      - certificate_certificate
+      - certificate_key
+      - keycloak_clin_client_secret
+      - aidbox_root_user
+      - aidbox_root_password
+      - clin_proxy_api_jwt_secret
+  variant:
+    image: chusj/clin-proxy-api-variant-service:$DEFAULT_PROD_VERSION
+    depends_on:
+      - memcached
+    ports:
+      - "5001:5001"
+    deploy:
+      replicas: 3
+      placement:
+        constraints:
+        - node.labels.app_role == generic
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 512M
+        reservations:
+          cpus: '0.50'
+          memory: 256M
+    networks:
+      - clinnet
+      - proxy
+    env_file:
+      - variant.env
+    secrets:
+      - certificate_certificate
+      - certificate_key
+      - keycloak_clin_client_secret
+      - aidbox_root_user
+      - aidbox_root_password
+      - clin_proxy_api_jwt_secret
+  meta:
+    image: chusj/clin-proxy-api-meta-service:$DEFAULT_PROD_VERSION
+    depends_on:
+      - memcached
+    ports:
+      - "7000:7000"
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+        - node.labels.app_role == generic
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    networks:
+      - clinnet
+      - proxy
+    env_file:
+      - meta.env
+    secrets:
+      - certificate_certificate
+      - certificate_key
+      - keycloak_clin_client_secret
+      - aidbox_root_user
+      - aidbox_root_password
+      - clin_proxy_api_jwt_secret
+  gene:
+    image: chusj/clin-proxy-api-gene-service:$DEFAULT_PROD_VERSION
+    ports:
+      - "5002:5002"
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+        - node.labels.app_role == generic
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    networks:
+      - clinnet
+      - proxy
+    env_file:
+      - gene.env
+    secrets:
+      - certificate_certificate
+      - certificate_key
+      - keycloak_clin_client_secret
+      - aidbox_root_user
+      - aidbox_root_password
+      - clin_proxy_api_jwt_secret
+
+secrets:
+  certificate_certificate:
+    external: true
+  certificate_key:
+    external: true
+  keycloak_clin_client_secret:
+    external: true
+  aidbox_root_user:
+    external: true
+  aidbox_root_password:
+    external: true
+  clin_proxy_api_jwt_secret:
+    external: true
+
+networks:
+  aidbox:
+    external: true
+  clinnet:
+    external: true
+  proxy:
+    external: true
