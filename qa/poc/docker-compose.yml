@@ -1,0 +1,20 @@
+version: '3.5'
+
+services:
+  hello-world:
+    image: magnitus/hapi-service:$IMAGE_TAG
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.labels.app_role == generic
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+    networks:
+      - test
+
+networks:
+  test:
+    external: true

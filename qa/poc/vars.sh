@@ -1,0 +1,1 @@
+export IMAGE_TAG="hello-world";
