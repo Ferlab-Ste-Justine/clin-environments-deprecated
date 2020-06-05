@@ -1,11 +1,11 @@
-name: Deploy Clin Proxy Api on QA
+name: Deploy Clin External Proxy on QA
 
 on:
   push:
     branches:
     - master
     paths:
-    - 'qa/clin-proxy-api/**'
+    - 'qa/clin-external-proxy/**'
 
 jobs:
   Deploy:
@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Copy orchestration in the expected directory 
-      run: cp -r qa/clin-proxy-api /opt/orchestration
+      run: cp -r qa/clin-external-proxy /opt/orchestration
     - name: Put the ssh key in a file
       run: echo "${{ secrets.DEPLOYMENT_SSH_KEY }}" > id_rsa
     - name: Set the ssh key to have a restrictive permission
@@ -28,4 +28,4 @@ jobs:
                          --private-key=id_rsa \
                          --become \
                          /opt/playbooks/apply.yml \
-                         --extra-vars "deployment_dir=/opt/clin-proxy-api-deployment deployment_stack=qa-proxy-api"
+                         --extra-vars "deployment_dir=/opt/clin-external-proxy-deployment deployment_stack=clin-external-proxy"
