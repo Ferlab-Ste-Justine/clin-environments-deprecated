@@ -1,0 +1,26 @@
+name: Deploy POC on QA
+
+on:
+  push:
+    paths:
+    - 'qa/poc/**'
+
+jobs:
+  Deploy:
+    name: Setup the environment
+    runs-on: ubuntu-18.04
+    container: chusj/ansible-playbooks:1.1.0
+    steps:
+    - uses: actions/checkout@v2
+    - name: Copy orchestration in the expected directory 
+      run: cp -r qa/poc /opt/orchestration
+    - name: Put the ssh key in a file
+      run: echo "${{ secrets.DEPLOYMENT_SSH_KEY }}" > id_rsa
+    - name: Deploy the environment
+      run: |
+        ansible-playbook -i inventory \
+                         -u ubuntu \
+                         --private-key=id_rsa \
+                         --become \
+                         /opt/playbooks/apply.yml \
+                         --extra-vars "deployment_dir=/opt/poc-deployment deployment_stack=poc-deployment"

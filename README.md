@@ -1,0 +1,1 @@
+![](https://github.com/cr-ste-justine/clin-environments/workflows/Deploy%20POC%20on%20QA/badge.svg)
