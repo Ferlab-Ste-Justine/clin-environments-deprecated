@@ -1,0 +1,31 @@
+version: '3.5'
+services:
+
+  nginx:
+    image: chusj/clin-external-reverse-proxy:1.1.0
+    environment:
+      DOMAIN: "clin.cr-ste-justine.xyz"
+    ports:
+      - 443:443
+      - 10000:10000
+      - 10001:10001
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+        - node.labels.app_role == generic
+    networks:
+      - proxy
+    secrets:
+      - certificate_certificate
+      - certificate_key
+
+networks:
+  proxy:
+    external: true
+
+secrets:
+  certificate_certificate:
+    external: true
+  certificate_key:
+    external: true
