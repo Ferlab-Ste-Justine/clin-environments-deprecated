@@ -2,6 +2,8 @@ name: Deploy POC on QA
 
 on:
   push:
+    branches:
+    - master
     paths:
     - 'qa/poc/**'
 
