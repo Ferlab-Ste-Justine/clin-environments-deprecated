@@ -20,7 +20,7 @@ jobs:
       run: echo "${{ secrets.DEPLOYMENT_SSH_KEY }}" > id_rsa
     - name: Deploy the environment
       run: |
-        ansible-playbook -i inventory \
+        ansible-playbook -i qa/inventory \
                          -u ubuntu \
                          --private-key=id_rsa \
                          --become \
