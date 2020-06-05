@@ -18,8 +18,11 @@ jobs:
       run: cp -r qa/poc /opt/orchestration
     - name: Put the ssh key in a file
       run: echo "${{ secrets.DEPLOYMENT_SSH_KEY }}" > id_rsa
+    - name: Set the ssh key to have a restrictive permission
+      run: chmod 600 id_rsa
     - name: Deploy the environment
       run: |
+        ANSIBLE_HOST_KEY_CHECKING=False \
         ansible-playbook -i qa/inventory \
                          -u ubuntu \
                          --private-key=id_rsa \
