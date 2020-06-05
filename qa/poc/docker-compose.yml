@@ -4,7 +4,7 @@ services:
   hello-world:
     image: magnitus/hapi-service:$IMAGE_TAG
     deploy:
-      replicas: 2
+      replicas: 0
       placement:
         constraints:
         - node.labels.app_role == generic
