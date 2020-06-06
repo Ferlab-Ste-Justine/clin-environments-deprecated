@@ -1,6 +1,6 @@
 version: '3.5'
-services:
 
+services:
   nginx:
     image: chusj/clin-external-reverse-proxy:1.1.0
     environment:
