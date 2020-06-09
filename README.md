@@ -18,7 +18,22 @@ The pipeline will deploy the changes in the affected environment for you.
 
 ## Work in Progress Status
 
-Currently, only a subset of the clin services is for the **qa** environment is implemented (the remainainder of services still have to be deployed manually for the time being as well as secrets...)
+Currently, only a subset of the clin services on the **qa** environment are implemented (the remainainder of services still have to be deployed manually for the time being as well as secrets...).
+
+Notably missing are:
+- The overture clin services: https://github.com/cr-ste-justine/overture-dev-clin
+- The overture core services: https://github.com/cr-ste-justine/overture-dev
+- Elasticsearch: https://github.com/cr-ste-justine/devops/tree/dev/ES
+- Aidbox: https://github.com/cr-ste-justine/devops/tree/dev/aidbox
+- Keycloak: https://github.com/cr-ste-justine/devops/tree/dev/Keycloak
+- MongoDB: https://github.com/cr-ste-justine/devops/tree/dev/Mongo
+- Redis: https://github.com/cr-ste-justine/devops/tree/dev/Redis
+
+Docker Secrets (also a work in progress, a lot of secrets are still embedded in the configuration) have been manually deployed with the help of these scripts:
+- Aidbox Secrets: https://github.com/cr-ste-justine/devops/tree/dev/aidbox/secrets
+- Keycloak Secrets: https://github.com/cr-ste-justine/devops/tree/dev/Keycloak/secrets
+- Clin Proxy Api Secrets: https://github.com/cr-ste-justine/clin-proxy-api/tree/dev/secrets
+- Letsencrypt Certificates: https://github.com/cr-ste-justine/devops/tree/dev/certificates
 
 ## Frontend Domain Reference
 
