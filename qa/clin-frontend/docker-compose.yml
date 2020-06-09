@@ -1,0 +1,23 @@
+version: '3.3'
+services:
+
+  frontend:
+    image: chusj/clin-frontend:1.4.16
+    deploy:
+      replicas: 2
+      placement:
+        constraints: [node.labels.app_role == generic]
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 1024M
+        reservations:
+          cpus: '1.00'
+          memory: 512M
+    networks:
+      - proxy
+    command: nginx -g 'daemon off;'
+
+networks:
+  proxy:
+    external: true
