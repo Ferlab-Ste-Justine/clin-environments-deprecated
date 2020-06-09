@@ -1,0 +1,31 @@
+name: Deploy Clin Frontend on QA
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - 'qa/clin-frontend/**'
+
+jobs:
+  Deploy:
+    name: Setup the environment
+    runs-on: ubuntu-18.04
+    container: chusj/ansible-playbooks:1.1.0
+    steps:
+    - uses: actions/checkout@v2
+    - name: Copy orchestration in the expected directory 
+      run: cp -r qa/clin-frontend /opt/orchestration
+    - name: Put the ssh key in a file
+      run: echo "${{ secrets.DEPLOYMENT_SSH_KEY }}" > id_rsa
+    - name: Set the ssh key to have a restrictive permission
+      run: chmod 600 id_rsa
+    - name: Deploy the environment
+      run: |
+        ANSIBLE_HOST_KEY_CHECKING=False \
+        ansible-playbook -i qa/inventory \
+                         -u ubuntu \
+                         --private-key=id_rsa \
+                         --become \
+                         /opt/playbooks/apply.yml \
+                         --extra-vars "deployment_dir=/opt/clin-frontend-deployment deployment_stack=qa-clin-frontend"
