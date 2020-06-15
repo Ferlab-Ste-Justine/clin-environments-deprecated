@@ -4,7 +4,7 @@ services:
   nginx:
     image: chusj/clin-external-reverse-proxy:1.1.0
     environment:
-      DOMAIN: "clin.cr-ste-justine.xyz"
+      DOMAIN: "clin.ferlab.bio"
     ports:
       - 443:443
       - 10000:10000
