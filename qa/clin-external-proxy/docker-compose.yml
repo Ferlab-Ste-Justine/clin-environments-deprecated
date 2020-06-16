@@ -17,15 +17,17 @@ services:
     networks:
       - proxy
     secrets:
-      - certificate_certificate
-      - certificate_key
+      - source: certificate_v2_certificate
+        target: certificate_certificate
+      - source: certificate_v2_key
+        target: certificate_key
 
 networks:
   proxy:
     external: true
 
 secrets:
-  certificate_certificate:
+  certificate_v2_certificate:
     external: true
-  certificate_key:
+  certificate_v2_key:
     external: true

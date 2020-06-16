@@ -46,8 +46,10 @@ services:
     env_file:
       - auth.env
     secrets:
-      - certificate_certificate
-      - certificate_key
+      - source: certificate_v2_certificate
+        target: certificate_certificate
+      - source: certificate_v2_key
+        target: certificate_key
       - keycloak_clin_client_secret
       - aidbox_root_user
       - aidbox_root_password
@@ -77,8 +79,10 @@ services:
     env_file:
       - patient.env
     secrets:
-      - certificate_certificate
-      - certificate_key
+      - source: certificate_v2_certificate
+        target: certificate_certificate
+      - source: certificate_v2_key
+        target: certificate_key
       - keycloak_clin_client_secret
       - aidbox_root_user
       - aidbox_root_password
@@ -107,8 +111,10 @@ services:
     env_file:
       - variant.env
     secrets:
-      - certificate_certificate
-      - certificate_key
+      - source: certificate_v2_certificate
+        target: certificate_certificate
+      - source: certificate_v2_key
+        target: certificate_key
       - keycloak_clin_client_secret
       - aidbox_root_user
       - aidbox_root_password
@@ -137,8 +143,10 @@ services:
     env_file:
       - meta.env
     secrets:
-      - certificate_certificate
-      - certificate_key
+      - source: certificate_v2_certificate
+        target: certificate_certificate
+      - source: certificate_v2_key
+        target: certificate_key
       - keycloak_clin_client_secret
       - aidbox_root_user
       - aidbox_root_password
@@ -165,17 +173,19 @@ services:
     env_file:
       - gene.env
     secrets:
-      - certificate_certificate
-      - certificate_key
+      - source: certificate_v2_certificate
+        target: certificate_certificate
+      - source: certificate_v2_key
+        target: certificate_key
       - keycloak_clin_client_secret
       - aidbox_root_user
       - aidbox_root_password
       - clin_proxy_api_jwt_secret
 
 secrets:
-  certificate_certificate:
+  certificate_v2_certificate:
     external: true
-  certificate_key:
+  certificate_v2_key:
     external: true
   keycloak_clin_client_secret:
     external: true
