@@ -2,9 +2,10 @@ version: "3"
 services:
   clin-fhir-server:
     image: chusj/clin-fhir-server:cf0cc8a
-    placement:
-      constraints:
-        - node.labels.app_role == generic
+    deploy:
+      placement:
+        constraints:
+          - node.labels.app_role == generic
     environment:
       datasource.driver: "org.postgresql.Driver"
       datasource.url: "jdbc:postgresql://clin-fhir-server-postgres:5432/hapi"
@@ -18,10 +19,11 @@ services:
       - clin-fhir-internal
   clin-fhir-server-postgres:
     image: postgres
-    placement:
-      constraints:
-        - node.labels.app_role == generic
-        - node.labels.state_anchor == true
+    deploy:
+      placement:
+        constraints:
+          - node.labels.app_role == generic
+          - node.labels.state_anchor == true
     environment:
       POSTGRES_DB: 'hapi'
       POSTGRES_USER: 'admin'
