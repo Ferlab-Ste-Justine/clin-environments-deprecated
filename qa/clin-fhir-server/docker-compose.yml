@@ -6,12 +6,20 @@ services:
       placement:
         constraints:
           - node.labels.app_role == generic
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 2048M
+        reservations:
+          cpus: '1.00'
+          memory: 1024M
     environment:
       datasource.driver: "org.postgresql.Driver"
       datasource.url: "jdbc:postgresql://clin-fhir-server-postgres:5432/hapi"
       hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
       datasource.username: "admin"
       datasource.password: "admin"
+      JAVA_OPTS: "-server -Xmx1024m -Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -XX:+UseContainerSupport"
     ports:
       - "8080:8080"
     networks:
@@ -20,14 +28,24 @@ services:
   clin-fhir-server-postgres:
     image: postgres
     deploy:
+      mode: replicated
+      replicas: 1
       placement:
         constraints:
           - node.labels.app_role == generic
           - node.labels.state_anchor == true
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 2048M
+        reservations:
+          cpus: '1.00'
+          memory: 1024M
     environment:
       POSTGRES_DB: 'hapi'
       POSTGRES_USER: 'admin'
       POSTGRES_PASSWORD: 'admin'
+    command: -c 'shared_buffers=256MB' -c 'work_mem=4MB' -c 'maintenance_work_mem=64MB' -c 'max_worker_processes=8'
     volumes:
       - clin-fhir-postgres:/var/lib/postgresql/data
     networks:
