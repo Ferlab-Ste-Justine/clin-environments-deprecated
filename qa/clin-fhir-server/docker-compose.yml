@@ -1,0 +1,32 @@
+version: "3"
+services:
+  clin-fhir-server:
+    image: chusj/clin-fhir-server:cf0cc8a
+    environment:
+      datasource.driver: "org.postgresql.Driver"
+      datasource.url: "jdbc:postgresql://clin-fhir-server-postgres:5432/hapi"
+      hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+      datasource.username: "admin"
+      datasource.password: "admin"
+    ports:
+      - "8080:8080"
+    networks:
+      - proxy
+      - clin-fhir-internal
+  clin-fhir-server-postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: 'hapi'
+      POSTGRES_USER: 'admin'
+      POSTGRES_PASSWORD: 'admin'
+    volumes:
+      - clin-fhir-postgres:/var/lib/postgresql/data
+    networks:
+      - clin-fhir-internal
+volumes:
+  clin-fhir-postgres:
+networks:
+  clin-fhir-internal:
+    external: true
+  proxy:
+    external: true
