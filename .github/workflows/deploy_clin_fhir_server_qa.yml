@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Copy orchestration in the expected directory
-        run: cp -r qa/poc /opt/orchestration
+        run: cp -r qa/clin-fhir-server /opt/orchestration
       - name: Put the ssh key in a file
         run: echo "${{ secrets.DEPLOYMENT_SSH_KEY }}" > id_rsa
       - name: Set the ssh key to have a restrictive permission
