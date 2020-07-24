@@ -2,7 +2,7 @@ version: '3.5'
 services:
 
   frontend:
-    image: chusj/clin-frontend:2.4.0
+    image: chusj/clin-frontend:2.5.1
     deploy:
       replicas: 2
       placement:
