@@ -19,10 +19,10 @@ services:
       hibernate.dialect: "org.hibernate.dialect.PostgreSQL95Dialect"
       datasource.username: "admin"
       datasource.password: "admin"
-      auth.server.url: "https://clin.ferlab.bio:8443"
+      auth.server.url: "https://clin.ferlab.bio:8543"
       auth.realm: "clin"
       disable-ssl-validation: "false"
-      server_address: "http://localhost:8080/hapi-fhir-jpaserver/fhir/"
+      server_address: "https://clin.ferlab.bio/fhir/"
       JAVA_OPTS: "-server -Xmx1024m -Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -XX:+UseContainerSupport"
     ports:
       - "8080:8080"
