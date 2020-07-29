@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   nginx:
-    image: chusj/clin-external-reverse-proxy:1.2.0
+    image: chusj/clin-external-reverse-proxy:1.2.1
     environment:
       DOMAIN: "clin.ferlab.bio"
     ports:
