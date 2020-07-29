@@ -1,7 +1,7 @@
 version: "3"
 services:
   clin-fhir-server:
-    image: chusj/clin-fhir-server:7d13496
+    image: chusj/clin-fhir-server:9147afd
     deploy:
       placement:
         constraints:
