@@ -22,7 +22,7 @@ services:
       auth.server.url: "https://clin.ferlab.bio:8543"
       auth.realm: "clin"
       disable-ssl-validation: "false"
-      server_address: "http://clin.ferlab.bio/fhir/"
+      server_address: "http://localhost:8080/fhir/"
       JAVA_OPTS: "-server -Xmx1024m -Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -XX:+UseContainerSupport"
     ports:
       - "8080:8080"
