@@ -1,7 +1,7 @@
 version: "3"
 services:
   clin-fhir-server:
-    image: chusj/clin-fhir-server:9147afd
+    image: chusj/clin-fhir-server:a0b3f5c
     deploy:
       placement:
         constraints:
@@ -14,15 +14,15 @@ services:
           cpus: '1.00'
           memory: 1024M
     environment:
-      datasource.driver: "org.postgresql.Driver"
-      datasource.url: "jdbc:postgresql://clin-fhir-server-postgres:5432/hapi"
-      hibernate.dialect: "org.hibernate.dialect.PostgreSQL95Dialect"
-      datasource.username: "admin"
-      datasource.password: "admin"
-      auth.server.url: "https://clin.ferlab.bio:8543"
-      auth.realm: "clin"
-      disable-ssl-validation: "false"
-      server_address: "http://localhost:8080/fhir/"
+      HAPI_DATASOURCE_DRIVER: "org.postgresql.Driver"
+      HAPI_DATASOURCE_URL: "jdbc:postgresql://clin-fhir-server-postgres:5432/hapi"
+      HAPI_HIBERNATE_DIALECT: "org.hibernate.dialect.PostgreSQL95Dialect"
+      HAPI_DATASOURCE_USERNAME: "admin"
+      HAPI_DATASOURCE_PASSWORD: "admin"
+      HAPI_AUTH_SERVER_URL: "https://clin.ferlab.bio:8543"
+      HAPI_AUTH_REALM: "clin"
+      HAPI_DISABLE_SSL_VALIDATION: "false"
+      HAPI_SERVER_ADDRESS: "https://clin.ferlab.bio/fhir/"
       JAVA_OPTS: "-server -Xmx1024m -Djava.net.preferIPv4Stack=true -Djava.awt.headless=true -XX:+UseContainerSupport"
     ports:
       - "8080:8080"
