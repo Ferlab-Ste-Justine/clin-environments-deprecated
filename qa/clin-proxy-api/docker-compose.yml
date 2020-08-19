@@ -105,6 +105,32 @@ services:
         target: certificate_certificate
       - source: certificate_v2_key
         target: certificate_key
+  hpo:
+    image: chusj/clin-proxy-api-hpo-service:$DEFAULT_PROD_VERSION
+    ports:
+      - "8400:8400"
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+        - node.labels.app_role == generic
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    networks:
+      - clinnet
+      - proxy
+    env_file:
+      - hpo.env
+    secrets:
+      - source: certificate_v2_certificate
+        target: certificate_certificate
+      - source: certificate_v2_key
+        target: certificate_key
 
 secrets:
   certificate_v2_certificate:
